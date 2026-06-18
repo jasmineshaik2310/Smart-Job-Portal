@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SmartJob Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --dark-gray: #1f2937;
+            --medium-gray: #4b5563;
+            --success-green: #10b981;
+            --error-red: #ef4444;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+        }
+        
+        .login-card {
+            background-color: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .logo-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            margin: 0 auto 15px;
+        }
+        
+        .logo-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+        }
+        
+        .logo-header p {
+            color: var(--medium-gray);
+            font-size: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        input.input-error {
+            border-color: var(--error-red);
+            background-color: #fef2f2;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--medium-gray);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--medium-gray);
+            cursor: pointer;
+        }
+        
+        .remember-me input {
+            width: auto;
+            cursor: pointer;
+        }
+        
+        .forgot-password {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e5e7eb;
+        }
+        
+        .divider span {
+            background-color: white;
+            padding: 0 15px;
+            position: relative;
+        }
+        
+        .btn-google {
+            background-color: white;
+            color: var(--dark-gray);
+            border: 1px solid #d1d5db;
+        }
+        
+        .btn-google:hover {
+            background-color: #f9fafb;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--medium-gray);
+            font-size: 15px;
+        }
+        
+        .register-link a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Alert Styles */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-error {
+            background-color: #fef2f2;
+            border-left: 4px solid var(--error-red);
+            color: #991b1b;
+        }
+        
+        .alert-success {
+            background-color: #f0fdf4;
+            border-left: 4px solid var(--success-green);
+            color: #166534;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 30px 25px;
+            }
+            
+            .remember-forgot {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-header">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h1>Welcome Back</h1>
+                <p>Sign in to your SmartJob account</p>
+            </div>
+            
+            <div id="alertContainer"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="your.email@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="remember-forgot">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe"> Remember me
+                    </label>
+                    <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+                
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                
+                <button type="button" class="btn btn-google" id="googleLogin">
+                    <i class="fab fa-google"></i> Sign in with Google
+                </button>
+                
+                <div class="register-link">
+                    Don't have an account? <a href="register.html">Create one</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        // Helper function to show alerts
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type}">
+                    <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Auto-hide after 5 seconds for success messages
+            if (type === 'success') {
+                setTimeout(() => {
+                    if (alertContainer.innerHTML.includes(message)) {
+                        alertContainer.innerHTML = '';
+                    }
+                }, 5000);
+            }
+        }
+        
+        function showError(message) {
+            showAlert(message, 'error');
+        }
+        
+        function showSuccess(message) {
+            showAlert(message, 'success');
+        }
+        
+        // Load remembered email if "Remember me" was checked previously
+        document.addEventListener('DOMContentLoaded', function() {
+            const rememberedEmail = localStorage.getItem('remember_email');
+            if (rememberedEmail) {
+                document.getElementById('email').value = rememberedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+        
+        // Form submission
+        const loginForm = document.getElementById('loginForm');
+        
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // Clear previous error styles
+            document.getElementById('email').classList.remove('input-error');
+            document.getElementById('password').classList.remove('input-error');
+            
+            // Validate inputs
+            if (!email || !password) {
+                if (!email) document.getElementById('email').classList.add('input-error');
+                if (!password) document.getElementById('password').classList.add('input-error');
+                showError('Please enter both email and password.');
+                return;
+            }
+            
+            // Basic email validation
+            if (!email.includes('@') || !email.includes('.')) {
+                document.getElementById('email').classList.add('input-error');
+                showError('Please enter a valid email address.');
+                return;
+            }
+            
+            // Show loading effect
+            const submitBtn = this.querySelector('.btn-primary');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Prepare form data
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password);
+                
+                // Send login request
+                const response = await fetch('http://localhost:8000/api/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store authentication data
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    if (rememberMe) {
+                        localStorage.setItem('remember_email', email);
+                    } else {
+                        localStorage.removeItem('remember_email');
+                    }
+                    
+                    // Show success message
+                    const firstName = data.user.first_name || 'User';
+                    showSuccess(`Welcome back, ${firstName}! Redirecting to dashboard...`);
+                    
+                    // Redirect based on user type
+                    setTimeout(() => {
+                        if (data.user.user_type === 'job_seeker') {
+                            window.location.href = 'jobseekerdashboard.html';
+                        } else if (data.user.user_type === 'employer') {
+                            window.location.href = 'employerdashboard.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    }, 1500);
+                } else {
+                    // Handle authentication errors
+                    showError(data.detail || 'Invalid email or password. Please try again.');
+                    document.getElementById('password').classList.add('input-error');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Unable to connect to server. Please check if the backend server is running at http://localhost:8000');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Google login button
+        document.getElementById('googleLogin').addEventListener('click', function() {
+            showError('Google authentication is not available in demo mode. Please use email/password login.');
+        });
+        
+        // Real-time validation on input
+        document.getElementById('email').addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.remove('input-error');
+            }
+        });
+        
+        document.getElementById('password').addEventListener('input', function() {
+            if (this.value) {
+                this.classList.remove('input-error');
+            }
+        });
+    </script>
+</body>
+</html>

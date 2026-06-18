@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartJob Portal - Create Account</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --dark-gray: #1f2937;
+            --medium-gray: #4b5563;
+            --light-gray: #f3f4f6;
+            --success-green: #10b981;
+            --error-red: #ef4444;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .register-container {
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        .register-card {
+            background-color: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .logo-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            margin: 0 auto 15px;
+        }
+        
+        .logo-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+        }
+        
+        .logo-header p {
+            color: var(--medium-gray);
+            font-size: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        input.input-success {
+            border-color: var(--success-green);
+            background-color: #f0fdf4;
+        }
+        
+        input.input-error {
+            border-color: var(--error-red);
+            background-color: #fef2f2;
+        }
+        
+        .input-feedback {
+            font-size: 12px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .input-feedback.error {
+            color: var(--error-red);
+        }
+        
+        .input-feedback.success {
+            color: var(--success-green);
+        }
+        
+        .input-feedback i {
+            font-size: 12px;
+        }
+        
+        .password-field {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--medium-gray);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .user-type {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .user-type-option {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .user-type-option input {
+            display: none;
+        }
+        
+        .user-type-option label {
+            display: block;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .user-type-option input:checked + label {
+            border-color: var(--primary-blue);
+            background-color: rgba(37, 99, 235, 0.05);
+            color: var(--primary-blue);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e5e7eb;
+        }
+        
+        .divider span {
+            background-color: white;
+            padding: 0 15px;
+            position: relative;
+        }
+        
+        .btn-google {
+            background-color: white;
+            color: var(--dark-gray);
+            border: 1px solid #d1d5db;
+        }
+        
+        .btn-google:hover {
+            background-color: #f9fafb;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--medium-gray);
+            font-size: 15px;
+        }
+        
+        .login-link a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-error {
+            background-color: #fef2f2;
+            border-left: 4px solid var(--error-red);
+            color: #991b1b;
+        }
+        
+        .alert-success {
+            background-color: #f0fdf4;
+            border-left: 4px solid var(--success-green);
+            color: #166534;
+        }
+        
+        .alert-info {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary-blue);
+            color: #1e40af;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @media (max-width: 576px) {
+            .register-card {
+                padding: 30px 25px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .user-type {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="logo-header">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h1>Join SmartJob</h1>
+                <p>Create your account to unlock AI-powered job matching</p>
+            </div>
+            
+            <form id="registerForm">
+                <div class="user-type">
+                    <div class="user-type-option">
+                        <input type="radio" id="jobSeeker" name="userType" value="jobSeeker" checked>
+                        <label for="jobSeeker">Job Seeker</label>
+                    </div>
+                    <div class="user-type-option">
+                        <input type="radio" id="recruiter" name="userType" value="recruiter">
+                        <label for="recruiter">Recruiter</label>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Enter last name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="emailGroup">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="your.email@example.com" required>
+                    <div id="emailFeedback" class="input-feedback"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" placeholder="Create a strong password" required minlength="8">
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Re-enter your password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobRole">Current Role (Optional)</label>
+                    <select id="jobRole">
+                        <option value="">Select your role</option>
+                        <option value="software">Software Engineer</option>
+                        <option value="data">Data Scientist</option>
+                        <option value="ai">AI/ML Engineer</option>
+                        <option value="product">Product Manager</option>
+                        <option value="design">UX/UI Designer</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+                
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                
+                <button type="button" class="btn btn-google" id="googleSignup">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+                
+                <div class="login-link">
+                    Already have an account? <a href="login.html">Sign in</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const registerForm = document.getElementById('registerForm');
+        const emailInput = document.getElementById('email');
+        const emailFeedback = document.getElementById('emailFeedback');
+        
+        // ==================== STRICT EMAIL VALIDATION ====================
+        // This function ensures the domain is COMPLETE - no missing letters
+        // Examples of INVALID: user@gmail.c (missing 'om'), user@yahoo.co (missing 'm'), user@outlook.c (missing 'om')
+        // Examples of VALID: user@gmail.com, user@yahoo.com, user@outlook.com, user@company.org
+        function isValidEmail(email) {
+            // Trim whitespace
+            const trimmedEmail = email.trim();
+            if (trimmedEmail === '') return false;
+            
+            // Must contain @ symbol
+            if (!trimmedEmail.includes('@')) return false;
+            
+            const atIndex = trimmedEmail.indexOf('@');
+            
+            // Nothing before @ or nothing after @
+            if (atIndex === 0) return false;
+            if (atIndex === trimmedEmail.length - 1) return false;
+            
+            const localPart = trimmedEmail.substring(0, atIndex);
+            const domainPart = trimmedEmail.substring(atIndex + 1);
+            
+            // Local part validation
+            if (localPart.length === 0) return false;
+            if (localPart.startsWith('.') || localPart.endsWith('.')) return false;
+            if (localPart.includes('..')) return false;
+            
+            // Domain part validation - MUST have a complete domain with proper TLD
+            if (domainPart.length === 0) return false;
+            if (domainPart.startsWith('.') || domainPart.endsWith('.')) return false;
+            if (domainPart.includes('..')) return false;
+            
+            // Must contain at least one dot in domain (e.g., gmail.com)
+            const lastDotIndex = domainPart.lastIndexOf('.');
+            if (lastDotIndex === -1) return false;
+            
+            // Get TLD (what comes after the last dot)
+            const tld = domainPart.substring(lastDotIndex + 1);
+            
+            // TLD must be at least 2 characters and at most 6 characters
+            if (tld.length < 2) return false;
+            if (tld.length > 6) return false;
+            
+            // TLD must contain ONLY letters (no numbers, no special characters)
+            // This ensures "com" is valid but "c0m" or "c@m" is invalid
+            for (let i = 0; i < tld.length; i++) {
+                const charCode = tld.charCodeAt(i);
+                if (!((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122))) {
+                    return false; // TLD contains non-letter character
+                }
+            }
+            
+            // Get domain name (what comes before the last dot, e.g., "gmail" in "gmail.com")
+            const domainName = domainPart.substring(0, lastDotIndex);
+            
+            // Domain name cannot be empty (e.g., ".com" is invalid)
+            if (domainName.length === 0) return false;
+            
+            // Domain name must contain at least one letter (cannot be all numbers)
+            let hasLetter = false;
+            for (let i = 0; i < domainName.length; i++) {
+                const charCode = domainName.charCodeAt(i);
+                if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+                    hasLetter = true;
+                    break;
+                }
+            }
+            if (!hasLetter) return false;
+            
+            // Domain name can contain letters, numbers, hyphens
+            // But cannot start or end with hyphen
+            if (domainName.startsWith('-') || domainName.endsWith('-')) return false;
+            
+            // Check each segment of domain name (for multi-level domains like mail.google.com)
+            const domainSegments = domainName.split('.');
+            for (let segment of domainSegments) {
+                if (segment.length === 0) return false;
+                // Each segment can contain letters, numbers, hyphens
+                for (let i = 0; i < segment.length; i++) {
+                    const charCode = segment.charCodeAt(i);
+                    const isValidChar = (charCode >= 65 && charCode <= 90) || // A-Z
+                                       (charCode >= 97 && charCode <= 122) || // a-z
+                                       (charCode >= 48 && charCode <= 57) ||  // 0-9
+                                       charCode === 45; // hyphen
+                    if (!isValidChar) return false;
+                }
+                if (segment.startsWith('-') || segment.endsWith('-')) return false;
+            }
+            
+            // Additional check: common valid TLDs (can be expanded)
+            // This ensures complete TLD like .com, .org, .net, .io, .co, etc.
+            const validTLDs = ['com', 'org', 'net', 'edu', 'gov', 'mil', 'io', 'co', 'uk', 'us', 'ca', 'au', 'in', 'de', 'fr', 'jp', 'cn', 'br', 'mx', 'it', 'es', 'nl', 'ru', 'za', 'kr', 'id', 'sg', 'nz', 'ie', 'ch', 'se', 'no', 'dk', 'fi', 'pl', 'gr', 'pt', 'ar', 'cl', 'pe', 've', 'my', 'ph', 'pk', 'bd', 'ng', 'eg', 'sa', 'ae', 'il', 'tr', 'th', 'vn', 'tw', 'hk'];
+            
+            // For strict validation, check if TLD is in common list (optional but recommended)
+            // If you want to allow any 2-6 letter TLD, comment the line below
+            // Uncomment for stricter validation:
+            // if (!validTLDs.includes(tld.toLowerCase())) return false;
+            
+            return true;
+        }
+        
+        // Get specific error message for invalid email
+        function getEmailErrorMessage(email) {
+            const trimmed = email.trim();
+            
+            if (trimmed === '') {
+                return 'Email address is required';
+            }
+            
+            if (!trimmed.includes('@')) {
+                return 'Email must contain "@" symbol (e.g., name@gmail.com)';
+            }
+            
+            const atIndex = trimmed.indexOf('@');
+            
+            if (atIndex === 0) {
+                return 'Please enter a name before "@" (e.g., john@gmail.com)';
+            }
+            
+            if (atIndex === trimmed.length - 1) {
+                return 'Please enter a complete domain after "@" (e.g., @gmail.com)';
+            }
+            
+            const localPart = trimmed.substring(0, atIndex);
+            const domainPart = trimmed.substring(atIndex + 1);
+            
+            if (localPart.length === 0) {
+                return 'Please enter a name before "@"';
+            }
+            
+            if (localPart.startsWith('.')) {
+                return 'Email cannot start with a dot before "@"';
+            }
+            
+            if (localPart.endsWith('.')) {
+                return 'Email cannot end with a dot before "@"';
+            }
+            
+            if (localPart.includes('..')) {
+                return 'Email cannot contain consecutive dots';
+            }
+            
+            if (domainPart.length === 0) {
+                return 'Please enter a domain after "@" (e.g., gmail.com)';
+            }
+            
+            if (domainPart.startsWith('.')) {
+                return 'Domain cannot start with a dot (e.g., use gmail.com not .com)';
+            }
+            
+            if (domainPart.endsWith('.')) {
+                return 'Domain cannot end with a dot (e.g., use gmail.com not gmail.com.)';
+            }
+            
+            if (domainPart.includes('..')) {
+                return 'Domain cannot contain consecutive dots';
+            }
+            
+            const lastDotIndex = domainPart.lastIndexOf('.');
+            
+            if (lastDotIndex === -1) {
+                return 'Email must have a complete domain extension like .com, .org, .net (e.g., name@gmail.com)';
+            }
+            
+            const tld = domainPart.substring(lastDotIndex + 1);
+            
+            if (tld.length < 2) {
+                return `Domain extension "${tld}" is incomplete. Need at least 2 letters (e.g., .com, .org) - you typed "${tld}" which is missing letters`;
+            }
+            
+            if (tld.length > 6) {
+                return `Domain extension "${tld}" is too long. Maximum 6 letters allowed`;
+            }
+            
+            // Check if TLD contains only letters
+            let tldHasNonLetter = false;
+            for (let i = 0; i < tld.length; i++) {
+                const charCode = tld.charCodeAt(i);
+                if (!((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122))) {
+                    tldHasNonLetter = true;
+                    break;
+                }
+            }
+            
+            if (tldHasNonLetter) {
+                return `Domain extension "${tld}" contains invalid characters. Use only letters (e.g., .com, .org)`;
+            }
+            
+            const domainName = domainPart.substring(0, lastDotIndex);
+            
+            if (domainName.length === 0) {
+                return 'Please enter a domain name before the extension (e.g., "gmail" in gmail.com) - you typed just ".com" which is invalid';
+            }
+            
+            // Check if domain name has at least one letter
+            let hasLetter = false;
+            for (let i = 0; i < domainName.length; i++) {
+                const charCode = domainName.charCodeAt(i);
+                if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) {
+                    hasLetter = true;
+                    break;
+                }
+            }
+            
+            if (!hasLetter) {
+                return `Domain name "${domainName}" has no letters. Valid domain must contain letters (e.g., gmail, yahoo, outlook)`;
+            }
+            
+            if (domainName.startsWith('-') || domainName.endsWith('-')) {
+                return 'Domain name cannot start or end with a hyphen';
+            }
+            
+            // Check each segment for valid characters
+            const domainSegments = domainName.split('.');
+            for (let segment of domainSegments) {
+                if (segment.length === 0) {
+                    return 'Domain contains empty segments (e.g., double dot)';
+                }
+                for (let i = 0; i < segment.length; i++) {
+                    const charCode = segment.charCodeAt(i);
+                    const isValid = (charCode >= 65 && charCode <= 90) || // A-Z
+                                   (charCode >= 97 && charCode <= 122) || // a-z
+                                   (charCode >= 48 && charCode <= 57) ||  // 0-9
+                                   charCode === 45; // hyphen
+                    if (!isValid) {
+                        return `Domain contains invalid character "${segment[i]}" - only letters, numbers, and hyphens allowed`;
+                    }
+                }
+                if (segment.startsWith('-') || segment.endsWith('-')) {
+                    return 'Domain segment cannot start or end with a hyphen';
+                }
+            }
+            
+            return 'Invalid email format. Please use a complete email like name@domain.com (make sure the domain is complete, e.g., @gmail.com not @gmail.c)';
+        }
+        
+        // Real-time email validation
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            
+            if (email === '') {
+                emailInput.classList.remove('input-success', 'input-error');
+                emailFeedback.innerHTML = '';
+                return false;
+            }
+            
+            if (!isValidEmail(email)) {
+                emailInput.classList.add('input-error');
+                emailInput.classList.remove('input-success');
+                const errorMessage = getEmailErrorMessage(email);
+                emailFeedback.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errorMessage}`;
+                emailFeedback.className = 'input-feedback error';
+                return false;
+            } else {
+                emailInput.classList.add('input-success');
+                emailInput.classList.remove('input-error');
+                const domain = email.split('@')[1];
+                emailFeedback.innerHTML = `<i class="fas fa-check-circle"></i> ✓ Valid email address (${domain} is complete and valid)`;
+                emailFeedback.className = 'input-feedback success';
+                return true;
+            }
+        }
+        
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        // Email real-time validation
+        emailInput.addEventListener('input', function() {
+            validateEmail();
+            if (confirmPasswordInput.value) {
+                validateConfirmPassword();
+            }
+        });
+        
+        emailInput.addEventListener('blur', function() {
+            const email = emailInput.value.trim();
+            if (email === '') {
+                emailInput.classList.add('input-error');
+                emailInput.classList.remove('input-success');
+                emailFeedback.innerHTML = `<i class="fas fa-exclamation-circle"></i> Email is required`;
+                emailFeedback.className = 'input-feedback error';
+            } else {
+                validateEmail();
+            }
+        });
+        
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            let score = 0;
+            const oldStrength = document.getElementById('strengthIndicator');
+            if (oldStrength) oldStrength.remove();
+            
+            if (password.length > 0) {
+                if (password.length >= 8) score++;
+                if (password.length >= 12) score++;
+                if (/[A-Z]/.test(password)) score++;
+                if (/[a-z]/.test(password)) score++;
+                if (/[0-9]/.test(password)) score++;
+                if (/[^A-Za-z0-9]/.test(password)) score++;
+                
+                const strengthDiv = document.createElement('div');
+                strengthDiv.id = 'strengthIndicator';
+                strengthDiv.className = 'input-feedback';
+                
+                let strengthText = '';
+                let strengthClass = '';
+                
+                if (score <= 2) {
+                    strengthText = '⚠️ Weak password - use 8+ chars, mix of letters, numbers & symbols';
+                    strengthClass = 'error';
+                } else if (score <= 4) {
+                    strengthText = '⚡ Medium password - add more variety for strong security';
+                    strengthClass = '';
+                    strengthDiv.style.color = '#f59e0b';
+                } else {
+                    strengthText = '✓ Strong password!';
+                    strengthClass = 'success';
+                }
+                
+                strengthDiv.innerHTML = `<i class="fas fa-shield-alt"></i> ${strengthText}`;
+                if (strengthClass === 'error') strengthDiv.className = 'input-feedback error';
+                else if (strengthClass === 'success') strengthDiv.className = 'input-feedback success';
+                
+                const passwordField = document.querySelector('.password-field');
+                passwordField.parentNode.insertBefore(strengthDiv, passwordField.nextSibling);
+            }
+        }
+        
+        function validateConfirmPassword() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            if (confirmPassword === '') {
+                confirmPasswordInput.classList.remove('input-success', 'input-error');
+                return false;
+            }
+            
+            if (password !== confirmPassword) {
+                confirmPasswordInput.classList.add('input-error');
+                confirmPasswordInput.classList.remove('input-success');
+                return false;
+            } else {
+                confirmPasswordInput.classList.add('input-success');
+                confirmPasswordInput.classList.remove('input-error');
+                return true;
+            }
+        }
+        
+        passwordInput.addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+            if (this.value.length >= 8) {
+                this.classList.remove('input-error');
+                this.classList.add('input-success');
+            } else if (this.value.length > 0) {
+                this.classList.add('input-error');
+                this.classList.remove('input-success');
+            } else {
+                this.classList.remove('input-error', 'input-success');
+            }
+            if (confirmPasswordInput.value) validateConfirmPassword();
+        });
+        
+        confirmPasswordInput.addEventListener('input', function() {
+            validateConfirmPassword();
+        });
+        
+        function removeExistingAlerts() {
+            document.querySelectorAll('.alert').forEach(alert => alert.remove());
+        }
+        
+        function showError(message) {
+            removeExistingAlerts();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-error';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${message}</span>`;
+            registerForm.parentNode.insertBefore(errorDiv, registerForm);
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                errorDiv.style.opacity = '0';
+                setTimeout(() => errorDiv.remove(), 300);
+            }, 8000);
+        }
+        
+        function showSuccess(message) {
+            removeExistingAlerts();
+            const successDiv = document.createElement('div');
+            successDiv.className = 'alert alert-success';
+            successDiv.innerHTML = `<i class="fas fa-check-circle"></i><span>${message}</span>`;
+            registerForm.parentNode.insertBefore(successDiv, registerForm);
+        }
+        
+        function showInfo(message) {
+            removeExistingAlerts();
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'alert alert-info';
+            infoDiv.innerHTML = `<i class="fas fa-info-circle"></i><span>${message}</span>`;
+            registerForm.parentNode.insertBefore(infoDiv, registerForm);
+            setTimeout(() => {
+                infoDiv.style.opacity = '0';
+                setTimeout(() => infoDiv.remove(), 300);
+            }, 5000);
+        }
+        
+        // Form submission with strict email validation
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const userType = document.querySelector('input[name="userType"]:checked').value;
+            
+            let errors = [];
+            
+            if (!firstName) errors.push('• First name is required');
+            if (!lastName) errors.push('• Last name is required');
+            
+            // Strict email validation
+            if (!email) {
+                errors.push('• Email address is required');
+            } else if (!isValidEmail(email)) {
+                const specificError = getEmailErrorMessage(email);
+                errors.push(`• ${specificError}`);
+            }
+            
+            if (password.length < 8) {
+                errors.push('• Password must be at least 8 characters long');
+            }
+            if (password !== confirmPassword) {
+                errors.push('• Passwords do not match');
+            }
+            
+            if (errors.length > 0) {
+                showError(errors.join('<br>'));
+                return;
+            }
+            
+            const submitBtn = this.querySelector('.btn-primary');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password);
+                formData.append('first_name', firstName);
+                formData.append('last_name', lastName);
+                formData.append('user_type', userType === 'jobSeeker' ? 'job_seeker' : 'employer');
+                
+                const response = await fetch('http://localhost:8000/api/register', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('token', data.access_token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showSuccess(`✓ Welcome ${firstName}! Your account has been created successfully. Redirecting to dashboard...`);
+                    setTimeout(() => {
+                        if (userType === 'jobSeeker') {
+                            window.location.href = 'jobseekerdashboard.html';
+                        } else {
+                            window.location.href = 'recruiters.html';
+                        }
+                    }, 2000);
+                } else {
+                    showError(data.detail || 'Registration failed. Please try again.');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showError('⚠️ Error connecting to server. Please check your internet connection and try again.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        document.getElementById('googleSignup').addEventListener('click', function() {
+            showInfo('🔐 Google authentication would open here. This is a demo feature.');
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('firstName').focus();
+        });
+        
+        // Demo data loader (double-click logo for testing)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            document.querySelector('.logo-header').addEventListener('dblclick', function() {
+                document.getElementById('firstName').value = 'John';
+                document.getElementById('lastName').value = 'Doe';
+                // Valid complete email with proper domain
+                document.getElementById('email').value = `demo${Date.now()}@gmail.com`;
+                document.getElementById('password').value = 'Demo123!@#';
+                document.getElementById('confirmPassword').value = 'Demo123!@#';
+                emailInput.dispatchEvent(new Event('input'));
+                passwordInput.dispatchEvent(new Event('input'));
+                confirmPasswordInput.dispatchEvent(new Event('input'));
+                showInfo('📝 Demo data loaded with valid email (complete @gmail.com domain). You can test registration.');
+            });
+        }
+    </script>
+</body>
+</html>

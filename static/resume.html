@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartJob - AI Resume & Job Match</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* All your existing CSS - keeping it the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --dark-blue: #1e40af;
+            --accent-teal: #0d9488;
+            --dark-gray: #1f2937;
+            --medium-gray: #4b5563;
+            --light-gray: #f3f4f6;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --danger-red: #ef4444;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+        }
+        
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            color: var(--dark-gray);
+        }
+        
+        .logo-text span {
+            color: var(--primary-blue);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--medium-gray);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-blue);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .profile-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .profile-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 200px;
+            z-index: 1000;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .profile-menu a {
+            display: block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--dark-gray);
+        }
+        
+        .profile-menu a:hover {
+            background: #f8f9fa;
+        }
+        
+        .page-header {
+            margin: 40px 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .page-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+        }
+        
+        .page-header h1 span {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-green), #34d399);
+            color: white;
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+            border-radius: 20px;
+            padding: 35px;
+            color: white;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .score-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+        }
+        
+        .ai-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .resume-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 28px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: var(--medium-gray);
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+        }
+        
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+        
+        .skills-input-container {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .skills-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .skill-tag {
+            background: rgba(37,99,235,0.1);
+            color: var(--primary-blue);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .skill-tag i {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        
+        .matches-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            position: sticky;
+            top: 100px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .matches-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        .matches-count {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+        }
+        
+        .job-match-item {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .job-match-item:hover {
+            transform: translateX(5px);
+            border-color: var(--primary-blue);
+        }
+        
+        .job-match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .match-percentage {
+            background: linear-gradient(135deg, var(--success-green), #34d399);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .job-skills-mini {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        
+        .skill-mini {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 11px;
+        }
+        
+        .skill-matched {
+            background: rgba(16,185,129,0.1);
+            border-color: var(--success-green);
+            color: var(--success-green);
+        }
+        
+        .apply-btn-sm {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .apply-btn-sm:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .applied-btn {
+            background: var(--success-green);
+            border-color: var(--success-green);
+            color: white;
+            cursor: default;
+        }
+        
+        .improvement-card {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .applications-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .applications-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .applications-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .applications-table {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px;
+            background: #f8fafc;
+            color: var(--dark-gray);
+            font-weight: 600;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            color: var(--medium-gray);
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-submitted {
+            background: #e7f3ff;
+            color: #0066cc;
+        }
+        
+        .empty-applications {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--medium-gray);
+        }
+        
+        .empty-applications i {
+            font-size: 60px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        
+        .progress-container.active {
+            display: block;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .alert-container {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            z-index: 9999;
+        }
+        
+        .alert {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-left: 4px solid;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert.success { border-left-color: var(--success-green); }
+        .alert.error { border-left-color: var(--danger-red); }
+        .alert.info { border-left-color: var(--primary-blue); }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        footer {
+            background: var(--dark-gray);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .copyright {
+            text-align: center;
+            opacity: 0.7;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #e5e7eb;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--primary-blue);
+            background: #f0f9ff;
+        }
+        
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .matches-card {
+                position: static;
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                    <div class="logo-text">Smart<span>Job</span></div>
+                </a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="resume.html" class="active">My Resume</a>
+                    <a href="jobs.html">Jobs</a>
+                    <a href="jobseekerdashboard.html">Dashboard</a>
+                </div>
+                <div class="user-profile" onclick="toggleProfileMenu()">
+                    <div class="profile-img" id="profileInitials">JS</div>
+                    <div class="profile-name" id="profileName">Jasmine Shaik</div>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="profile-menu" id="profileMenu">
+                        <a href="#"><i class="fas fa-user"></i> Profile</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="alert-container" id="alertContainer"></div>
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-header"><span><i class="fas fa-spinner fa-spin"></i> Processing...</span><span id="progressPercentage">0%</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div id="progressStatus">Starting...</div>
+        </div>
+
+        <div class="page-header">
+            <h1>My <span>Resume</span> & <span>Job Matches</span></h1>
+            <button class="btn btn-primary" onclick="saveResume()"><i class="fas fa-save"></i> Save Resume</button>
+        </div>
+
+        <div class="score-card">
+            <div class="score-left">
+                <div class="score-circle" id="resumeScore">--</div>
+                <div><h2 id="scoreTitle">Ready to analyze</h2><p id="scoreDescription">Upload your resume to see matching jobs</p></div>
+            </div>
+            <div class="ai-badge"><i class="fas fa-robot"></i> AI-Powered Matching</div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="left-column">
+                <div class="resume-tabs">
+                    <button class="tab-btn active" onclick="switchTab('edit', this)"><i class="fas fa-edit"></i> Edit Resume</button>
+                    <button class="tab-btn" onclick="switchTab('upload', this)"><i class="fas fa-upload"></i> Upload Resume</button>
+                    <button class="tab-btn" onclick="switchTab('analysis', this)"><i class="fas fa-chart-line"></i> AI Analysis</button>
+                    <button class="tab-btn" onclick="switchTab('applications', this)"><i class="fas fa-paper-plane"></i> My Applications</button>
+                </div>
+
+                <!-- Edit Tab -->
+                <div class="tab-pane active" id="editTab">
+                    <div class="content-card">
+                        <div class="skills-input-container">
+                            <label><i class="fas fa-code"></i> Skills (comma separated)</label>
+                            <input type="text" class="form-control" id="skillsInput" placeholder="Python, React, Machine Learning, SQL">
+                            <div class="skills-tags" id="skillsTags"></div>
+                            <button class="btn btn-primary btn-sm" onclick="findJobMatches()"><i class="fas fa-search"></i> Find Matching Jobs</button>
+                        </div>
+                        <div class="form-group"><label>Full Name</label><input type="text" class="form-control" id="fullName" value="Jasmine Shaik"></div>
+                        <div class="form-group"><label>Email</label><input type="email" class="form-control" id="email" value="jasmine@example.com"></div>
+                        <div class="form-group"><label>Professional Summary</label><textarea class="form-control" id="summary" rows="3">AI & ML student with skills in Python, Java, JavaScript, HTML, CSS.</textarea></div>
+                        <div class="form-group"><label>Experience</label><div id="experienceContainer"></div><button class="btn btn-outline btn-sm" onclick="addExperience()">+ Add Experience</button></div>
+                        <div class="form-group"><label>Education</label><div id="educationContainer"></div><button class="btn btn-outline btn-sm" onclick="addEducation()">+ Add Education</button></div>
+                    </div>
+                </div>
+
+                <!-- Upload Tab -->
+                <div class="tab-pane" id="uploadTab">
+                    <div class="content-card">
+                        <h3><i class="fas fa-cloud-upload-alt"></i> Upload or Paste Resume</h3>
+                        <div class="file-upload-area" onclick="document.getElementById('resumeFile').click()">
+                            <i class="fas fa-file-alt" style="font-size:48px; color:var(--primary-blue);"></i>
+                            <p>Click to upload PDF/DOCX/TXT</p>
+                            <p style="font-size:12px; color:var(--medium-gray);">Supported: PDF, DOCX, TXT (Max 5MB)</p>
+                            <input type="file" id="resumeFile" accept=".pdf,.docx,.txt" style="display:none" onchange="processUploadedFile(this)">
+                        </div>
+                        <textarea class="form-control" id="pastedResume" rows="8" placeholder="Or paste your resume text here..."></textarea>
+                        <button class="btn btn-success" style="margin-top:20px; width:100%" onclick="processPastedResume()"><i class="fas fa-magic"></i> Extract Skills & Find Matches</button>
+                    </div>
+                </div>
+
+                <!-- Analysis Tab -->
+                <div class="tab-pane" id="analysisTab">
+                    <div class="content-card">
+                        <h3><i class="fas fa-chart-bar"></i> Skill Gap Analysis</h3>
+                        <div id="skillGapAnalysis"></div>
+                        <div class="improvement-card" id="improvementTips">
+                            <h4><i class="fas fa-lightbulb"></i> AI Suggestions to Improve Match</h4>
+                            <ul id="suggestionsList"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applications Tab -->
+                <div class="tab-pane" id="applicationsTab">
+                    <div class="applications-section">
+                        <div class="applications-header">
+                            <h2><i class="fas fa-paper-plane"></i> My Job Applications</h2>
+                            <button class="btn btn-outline btn-sm" onclick="clearAllApplications()">
+                                <i class="fas fa-trash"></i> Clear All
+                            </button>
+                        </div>
+                        <div id="applicationsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Matches Sidebar -->
+            <div class="right-column">
+                <div class="matches-card">
+                    <div class="matches-header">
+                        <h3><i class="fas fa-bolt"></i> Job Matches</h3>
+                        <span class="matches-count" id="matchesCount">0</span>
+                    </div>
+                    <div id="jobMatchesContainer">
+                        <div style="text-align:center; padding:40px;">
+                            <i class="fas fa-search" style="font-size: 40px; color: var(--medium-gray); margin-bottom: 15px;"></i>
+                            <p>Upload your resume to see job matches</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">&copy; 2026 SmartJob Portal | AI Resume Matching System | Find Your Dream Job</div>
+        </div>
+    </footer>
+
+    <script>
+        // Job Database
+        const JOB_DATABASE = [
+            { id: 1, title: "Python Developer", company: "TechCorp", location: "Remote", skills_required: ["Python", "Django", "SQL"], salary: "$80k-100k" },
+            { id: 2, title: "Full Stack Developer", company: "Microsoft", location: "Remote", skills_required: ["JavaScript", "React", "Node.js", "Python", "SQL"], salary: "$120k-160k" },
+            { id: 3, title: "Data Scientist", company: "Amazon", location: "Seattle, WA", skills_required: ["Python", "SQL", "Machine Learning", "Pandas"], salary: "$130k-170k" },
+            { id: 4, title: "Frontend Developer", company: "Meta", location: "Remote", skills_required: ["JavaScript", "React", "HTML", "CSS"], salary: "$110k-150k" },
+            { id: 5, title: "Backend Engineer", company: "Netflix", location: "Los Gatos, CA", skills_required: ["Java", "Python", "SQL", "AWS"], salary: "$140k-180k" },
+            { id: 6, title: "Java Developer", company: "Oracle", location: "Austin, TX", skills_required: ["Java", "Spring Boot", "SQL"], salary: "$100k-140k" },
+            { id: 7, title: "ML Engineer", company: "Tesla", location: "Palo Alto, CA", skills_required: ["Python", "Machine Learning", "TensorFlow"], salary: "$145k-190k" },
+            { id: 8, title: "React Developer", company: "Spotify", location: "Remote", skills_required: ["React", "JavaScript", "HTML", "CSS"], salary: "$105k-145k" }
+        ];
+
+        let currentSkills = [];
+        let currentMatches = [];
+        let appliedJobs = [];
+
+        function loadAppliedJobs() {
+            const stored = localStorage.getItem('appliedJobs');
+            appliedJobs = stored ? JSON.parse(stored) : [];
+            updateApplicationsDisplay();
+        }
+
+        function saveAppliedJobs() {
+            localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
+            updateApplicationsDisplay();
+        }
+
+        function updateApplicationsDisplay() {
+            const container = document.getElementById('applicationsList');
+            if (!container) return;
+            if (appliedJobs.length === 0) {
+                container.innerHTML = `<div class="empty-applications"><i class="fas fa-inbox"></i><h3>No Applications Yet</h3><p>Apply to jobs from the Job Matches section.</p></div>`;
+                return;
+            }
+            container.innerHTML = `<div class="applications-table"><table><thead><tr><th>Job Title</th><th>Company</th><th>Applied Date</th><th>Status</th></tr></thead><tbody>${appliedJobs.map(job => `<tr><td><strong>${job.title}</strong></td><td>${job.company}</td><td>${new Date(job.appliedDate).toLocaleDateString()}</td><td><span class="status-badge status-submitted">Submitted</span></td></tr>`).join('')}</tbody></table></div>`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAppliedJobs();
+            addExperience();
+            addEducation();
+        });
+
+        function updateSkillsTags() {
+            const input = document.getElementById('skillsInput');
+            currentSkills = input.value.split(',').map(s => s.trim()).filter(s => s);
+            document.getElementById('skillsTags').innerHTML = currentSkills.map(skill => `<span class="skill-tag">${skill} <i class="fas fa-times" onclick="removeSkill('${skill}')"></i></span>`).join('');
+        }
+
+        function removeSkill(skill) {
+            let skills = document.getElementById('skillsInput').value.split(',').map(s => s.trim());
+            skills = skills.filter(s => s !== skill);
+            document.getElementById('skillsInput').value = skills.join(', ');
+            updateSkillsTags();
+            findJobMatches();
+        }
+
+        // ==================== FIND JOB MATCHES (UPDATED) ====================
+        function findJobMatches() {
+            updateSkillsTags();
+            
+            console.log("Finding job matches for skills:", currentSkills);
+            
+            if (currentSkills.length === 0) {
+                document.getElementById('jobMatchesContainer').innerHTML = '<div style="text-align:center; padding:40px;"><i class="fas fa-exclamation-triangle"></i><p>No skills found. Upload your resume to see job matches.</p></div>';
+                document.getElementById('matchesCount').textContent = '0';
+                document.getElementById('resumeScore').textContent = '--';
+                return;
+            }
+
+            // Calculate matches for each job
+            const matches = JOB_DATABASE.map(job => {
+                const matchedSkills = job.skills_required.filter(skill => 
+                    currentSkills.some(userSkill => userSkill.toLowerCase() === skill.toLowerCase())
+                );
+                const matchScore = job.skills_required.length > 0 ? Math.round((matchedSkills.length / job.skills_required.length) * 100) : 0;
+                console.log(`Job: ${job.title}, Matched: ${matchedSkills.join(', ')}, Score: ${matchScore}%`);
+                return { ...job, matchedSkills, matchScore };
+            }).filter(job => job.matchScore > 0).sort((a,b) => b.matchScore - a.matchScore);
+            
+            currentMatches = matches;
+            document.getElementById('matchesCount').textContent = matches.length;
+            
+            // Calculate average match score
+            const avgMatch = matches.length ? Math.round(matches.reduce((a,b) => a + b.matchScore, 0) / matches.length) : 0;
+            document.getElementById('resumeScore').textContent = avgMatch || '--';
+            document.getElementById('scoreTitle').textContent = avgMatch >= 70 ? "Excellent Profile!" : "Good Start!";
+            document.getElementById('scoreDescription').textContent = avgMatch >= 70 ? "Your skills are highly marketable!" : "Keep adding skills to improve matches";
+            
+            displayJobMatches(matches);
+            updateSkillAnalysis(matches);
+            
+            if (matches.length === 0) {
+                showAlert('No matching jobs found. Try adding more skills!', 'info');
+            } else {
+                showAlert(`🎯 Found ${matches.length} matching jobs! Best match: ${matches[0].title} (${matches[0].matchScore}%)`, 'success');
+            }
+        }
+
+        function displayJobMatches(matches) {
+            const container = document.getElementById('jobMatchesContainer');
+            if (matches.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:40px;"><i class="fas fa-frown"></i><p>No matches yet. Add more skills to see job recommendations!</p></div>';
+                return;
+            }
+            
+            container.innerHTML = matches.map(job => {
+                const isApplied = appliedJobs.some(applied => applied.id === job.id);
+                return `
+                    <div class="job-match-item" onclick="viewJobDetails(${job.id})">
+                        <div class="job-match-header">
+                            <h4 style="font-size:16px;">${job.title}</h4>
+                            <span class="match-percentage">${job.matchScore}%</span>
+                        </div>
+                        <div style="font-size:13px; color:var(--medium-gray);"><i class="fas fa-building"></i> ${job.company} | <i class="fas fa-map-marker-alt"></i> ${job.location}</div>
+                        <div class="job-skills-mini">
+                            ${job.skills_required.slice(0,4).map(skill => `<span class="skill-mini ${job.matchedSkills.includes(skill) ? 'skill-matched' : ''}">${skill}</span>`).join('')}
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+                            <span style="font-size:11px;"><i class="fas fa-dollar-sign"></i> ${job.salary}</span>
+                            <button class="apply-btn-sm ${isApplied ? 'applied-btn' : ''}" onclick="event.stopPropagation(); applyForJob(${job.id})" ${isApplied ? 'disabled' : ''}>
+                                ${isApplied ? '<i class="fas fa-check"></i> Applied' : '<i class="fas fa-paper-plane"></i> Apply Now'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==================== PROCESS UPLOADED FILE (UPDATED) ====================
+        async function processUploadedFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const validTypes = ['.pdf', '.docx', '.txt'];
+            const fileExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            if (!validTypes.includes(fileExt)) {
+                showAlert('Please upload PDF, DOCX, or TXT file', 'error');
+                return;
+            }
+            
+            showProgress(true);
+            updateProgress(10, `Uploading ${file.name}...`);
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch('/api/extract-resume-skills', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                updateProgress(60, 'Extracting skills from resume...');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Extraction result:", data);
+                    
+                    if (data.success && data.skills && data.skills.length > 0) {
+                        // Update skills input with extracted skills
+                        document.getElementById('skillsInput').value = data.skills.join(', ');
+                        updateSkillsTags();
+                        showAlert(`✅ Extracted ${data.skills.length} skills from your resume!`, 'success');
+                        console.log("Extracted skills:", data.skills);
+                        
+                        // IMPORTANT: Call findJobMatches to show jobs
+                        findJobMatches();
+                    } else {
+                        showAlert('⚠️ No skills detected. Please add skills manually.', 'warning');
+                        // Still try to find matches with existing skills
+                        findJobMatches();
+                    }
+                } else {
+                    showAlert('Error processing file. Please paste text manually.', 'error');
+                }
+                
+                updateProgress(100, 'Complete!');
+                setTimeout(() => showProgress(false), 800);
+                
+                // Switch to edit tab to show extracted skills
+                document.querySelectorAll('.tab-btn')[0].click();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error connecting to server. Please paste text manually.', 'error');
+                showProgress(false);
+            }
+        }
+        
+        // ==================== PROCESS PASTED RESUME ====================
+        function processPastedResume() {
+            const text = document.getElementById('pastedResume').value;
+            if (!text.trim()) {
+                showAlert('Please paste resume content', 'error');
+                return;
+            }
+            
+            showProgress(true);
+            updateProgress(40, 'Analyzing text...');
+            
+            setTimeout(() => {
+                // Simple skill extraction from pasted text
+                const skillsList = [
+                    "Python", "Java", "JavaScript", "HTML", "CSS", "SQL", "React", "Node.js",
+                    "Machine Learning", "Data Science", "AWS", "Docker", "Git", "GitHub",
+                    "Django", "Flask", "Spring Boot", "TypeScript", "Angular", "Vue", "C++", "C#"
+                ];
+                const extracted = skillsList.filter(skill => text.toLowerCase().includes(skill.toLowerCase()));
+                
+                if (extracted.length > 0) {
+                    document.getElementById('skillsInput').value = extracted.join(', ');
+                    updateSkillsTags();
+                    showAlert(`✅ Extracted ${extracted.length} skills from your resume!`, 'success');
+                } else {
+                    showAlert('⚠️ No skills detected. Please add skills manually.', 'warning');
+                }
+                
+                updateProgress(100, 'Complete!');
+                setTimeout(() => showProgress(false), 500);
+                
+                // IMPORTANT: Call findJobMatches to show jobs
+                findJobMatches();
+                
+                document.querySelectorAll('.tab-btn')[0].click();
+            }, 500);
+        }
+
+        function applyForJob(jobId) {
+            const job = JOB_DATABASE.find(j => j.id === jobId);
+            if (appliedJobs.some(a => a.id === jobId)) {
+                showAlert(`Already applied for ${job.title}!`, 'info');
+                return;
+            }
+            appliedJobs.unshift({ id: job.id, title: job.title, company: job.company, appliedDate: new Date().toISOString(), status: 'submitted' });
+            saveAppliedJobs();
+            showAlert(`✅ Applied for ${job.title} at ${job.company}!`, 'success');
+            displayJobMatches(currentMatches);
+        }
+        
+        function viewJobDetails(jobId) {
+            const job = JOB_DATABASE.find(j => j.id === jobId);
+            const matched = job.skills_required.filter(s => currentSkills.some(us => us.toLowerCase() === s.toLowerCase()));
+            const missing = job.skills_required.filter(s => !currentSkills.some(us => us.toLowerCase() === s.toLowerCase()));
+            showAlert(`📋 ${job.title}\n💰 ${job.salary}\n📍 ${job.location}\n✅ Matched: ${matched.join(', ') || 'None'}\n❌ Missing: ${missing.slice(0,3).join(', ') || 'None'}`, 'info');
+        }
+        
+        function clearAllApplications() {
+            if (confirm('Clear all applications?')) {
+                appliedJobs = [];
+                saveAppliedJobs();
+                displayJobMatches(currentMatches);
+                showAlert('All applications cleared!', 'success');
+            }
+        }
+        
+        function updateSkillAnalysis(matches) {
+            const container = document.getElementById('skillGapAnalysis');
+            if (!container) return;
+            
+            if (matches.length === 0) {
+                container.innerHTML = '<p>Upload your resume to see skill analysis</p>';
+                return;
+            }
+            
+            const skillDemand = {};
+            matches.forEach(job => {
+                job.skills_required.forEach(skill => {
+                    skillDemand[skill] = (skillDemand[skill] || 0) + 1;
+                });
+            });
+            const topDemanded = Object.entries(skillDemand).sort((a,b) => b[1] - a[1]).slice(0, 6);
+            container.innerHTML = `<h4>📊 Most Demanded Skills</h4><div class="skills-tags">${topDemanded.map(([skill, count]) => `<span class="skill-tag" style="${currentSkills.includes(skill) ? 'background:#10b98120; color:#10b981;' : 'background:#fee2e2; color:#dc2626;'}">${skill} (${count}) ${currentSkills.includes(skill) ? '✓' : '⚠️'}</span>`).join('')}</div>`;
+            
+            const suggestionsList = document.getElementById('suggestionsList');
+            const missingHigh = topDemanded.filter(([skill]) => !currentSkills.includes(skill));
+            suggestionsList.innerHTML = missingHigh.length ? missingHigh.map(([skill]) => `<li><i class="fas fa-arrow-right"></i> Add <strong>${skill}</strong> to improve matches</li>`).join('') : '<li><i class="fas fa-check-circle"></i> Great! Your skills align well!</li>';
+        }
+        
+        function saveResume() { 
+            showAlert('Resume saved successfully!', 'success'); 
+            findJobMatches();
+        }
+        
+        let expCount = 0, eduCount = 0;
+        function addExperience() { expCount++; document.getElementById('experienceContainer').innerHTML += `<div class="exp-item"><input class="form-control" placeholder="Job Title" style="margin-bottom:10px;"><input class="form-control" placeholder="Company"><button class="btn btn-outline btn-sm" style="margin-top:10px;" onclick="this.parentElement.remove()">Remove</button></div>`; }
+        function addEducation() { eduCount++; document.getElementById('educationContainer').innerHTML += `<div class="edu-item"><input class="form-control" placeholder="Degree" style="margin-bottom:10px;"><input class="form-control" placeholder="Institution"><button class="btn btn-outline btn-sm" style="margin-top:10px;" onclick="this.parentElement.remove()">Remove</button></div>`; }
+        
+        function switchTab(tabName, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            if (tabName === 'analysis') updateSkillAnalysis(currentMatches);
+            if (tabName === 'applications') updateApplicationsDisplay();
+        }
+        
+        function showProgress(show) { document.getElementById('progressContainer').classList.toggle('active', show); }
+        function updateProgress(percent, status) { document.getElementById('progressFill').style.width = percent + '%'; document.getElementById('progressPercentage').textContent = percent + '%'; document.getElementById('progressStatus').innerHTML = status; }
+        
+        function showAlert(msg, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${type}`;
+            alertDiv.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i><span>${msg}</span>`;
+            document.getElementById('alertContainer').appendChild(alertDiv);
+            setTimeout(() => alertDiv.remove(), 4000);
+        }
+        
+        function toggleProfileMenu() { const m = document.getElementById('profileMenu'); m.style.display = m.style.display === 'none' ? 'block' : 'none'; }
+        function logout() { localStorage.clear(); showAlert('Logged out', 'success'); setTimeout(() => location.reload(), 1000); }
+        
+        document.addEventListener('click', (e) => { if (!e.target.closest('.user-profile')) document.getElementById('profileMenu').style.display = 'none'; });
+        document.getElementById('skillsInput').addEventListener('input', updateSkillsTags);
+        
+        updateSkillsTags();
+        addExperience();
+        addEducation();
+    </script>
+</body>
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Recruiters - SmartJob Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --dark-blue: #1e40af;
+            --accent-teal: #0d9488;
+            --dark-gray: #1f2937;
+            --medium-gray: #4b5563;
+            --light-gray: #f3f4f6;
+            --success-green: #10b981;
+            --employer-purple: #7c3aed;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--employer-purple), var(--primary-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+        }
+        
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            color: var(--dark-gray);
+        }
+        
+        .logo-text span {
+            color: var(--employer-purple);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--medium-gray);
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--employer-purple);
+        }
+        
+        .nav-links a.active {
+            color: var(--employer-purple);
+            font-weight: 600;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--employer-purple);
+            border-radius: 2px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--employer-purple);
+            border: 2px solid var(--employer-purple);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(124, 58, 237, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .btn-employer {
+            background: linear-gradient(135deg, var(--employer-purple), var(--primary-blue));
+            color: white;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+        }
+        
+        .btn-employer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3);
+        }
+        
+        /* Hero Section */
+        .recruiter-hero {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #faf5ff 0%, #f0f9ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recruiter-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%);
+            border-radius: 0 0 0 100px;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+        
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--employer-purple), var(--primary-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            color: var(--medium-gray);
+            margin-bottom: 32px;
+            max-width: 500px;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .stat-item h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--employer-purple);
+            margin-bottom: 5px;
+        }
+        
+        .stat-item p {
+            font-size: 16px;
+            color: var(--medium-gray);
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .dashboard-preview {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            border: 1px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .dashboard-title {
+            font-weight: 700;
+            color: var(--dark-gray);
+            font-size: 18px;
+        }
+        
+        .ai-badge {
+            background-color: rgba(124, 58, 237, 0.1);
+            color: var(--employer-purple);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .section-title p {
+            font-size: 18px;
+            color: var(--medium-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .recruiter-features {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: #ede9fe;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--employer-purple), var(--primary-blue));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 32px;
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        /* How It Works */
+        .recruiter-process {
+            padding: 100px 0;
+            background-color: var(--light-gray);
+        }
+        
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background-color: #d1d5db;
+            z-index: 1;
+        }
+        
+        .process-step {
+            background-color: white;
+            border-radius: 16px;
+            padding: 35px 25px;
+            width: 30%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--employer-purple), var(--primary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 22px;
+            margin: 0 auto 25px;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 40px 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--employer-purple);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.1);
+        }
+        
+        .pricing-card.featured .plan-name {
+            background-color: var(--employer-purple);
+            color: white;
+        }
+        
+        .plan-name {
+            background-color: #f5f3ff;
+            color: var(--employer-purple);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+        
+        .plan-price {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+        
+        .plan-period {
+            color: var(--medium-gray);
+            margin-bottom: 30px;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+        
+        .plan-features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .plan-features i {
+            color: var(--success-green);
+        }
+        
+        /* Testimonials */
+        .recruiter-testimonials {
+            padding: 100px 0;
+            background-color: var(--light-gray);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 35px;
+            border-left: 5px solid var(--employer-purple);
+        }
+        
+        /* CTA Section */
+        .recruiter-cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--employer-purple), var(--dark-blue));
+            color: white;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+        }
+        
+        .recruiter-cta h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .recruiter-cta p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: var(--employer-purple);
+        }
+        
+        .btn-white:hover {
+            background-color: #f5f3ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            font-size: 15px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-content, .features-grid, .pricing-plans {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text {
+                text-align: center;
+            }
+            
+            .hero-text p {
+                margin: 0 auto 32px;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .process-step {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 42px;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="logo-text">Smart<span>Job</span></div>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="for-recruiters.html" class="active">For Recruiters</a>
+                    
+                    
+                    <a href="#pricing">Pricing</a>
+                    <a href="postjobs.html">Post Jobs</a>
+                </div>
+                
+                <div class="nav-buttons">
+                    <a href="login.html" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> Employer Login
+                    </a>
+                    <a href="register.html?type=employer" class="btn btn-employer">
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="recruiter-hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Hire Smarter with <span>AI-Powered Recruitment</span></h1>
+                    <p>Find the perfect candidates faster with our rule-based AI matching engine. Reduce hiring time by 70% and improve candidate quality.</p>
+                    <a href="#pricing" class="btn btn-employer btn-large">
+                    </a>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h3>70%</h3>
+                            <p>Faster Hiring</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>95%</h3>
+                            <p>Match Accuracy</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>10K+</h3>
+                            <p>Companies Trust Us</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-header">
+                            <div class="dashboard-title">Candidate Dashboard</div>
+                            <div class="ai-badge">AI-Powered Matching</div>
+                        </div>
+                        <div style="text-align: center; padding: 20px 0;">
+                            <div style="display: inline-block; background: linear-gradient(135deg, var(--employer-purple), var(--primary-blue)); color: white; padding: 12px 24px; border-radius: 12px; margin-bottom: 20px;">
+                                <h3 style="margin: 0; font-size: 18px;">Top Match: 94%</h3>
+                            </div>
+                            <p style="color: var(--medium-gray);">AI Engineer position matched with 3 perfect candidates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="recruiter-features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Recruitment Tools</h2>
+                <p>Everything you need to streamline your hiring process and find the best talent</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Candidate Matching</h3>
+                    <p>Our rule-based AI analyzes resumes against job requirements with 95% accuracy, ranking candidates by fit.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Smart Screening</h3>
+                    <p>Automatically filter and shortlist candidates based on skills, experience, and qualifications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Track hiring metrics, pipeline health, and team performance with detailed insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works -->
+    <section class="recruiter-process">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple 3-Step Process</h2>
+                <p>Get started with AI-powered recruitment in minutes</p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Post Your Job</h3>
+                    <p>Create detailed job descriptions with requirements, skills, and experience levels.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>AI Matching</h3>
+                    <p>Our system analyzes and matches candidates based on your criteria and priorities.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Review & Interview</h3>
+                    <p>Review ranked candidates, schedule interviews, and track the entire hiring pipeline.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Flexible Pricing Plans</h2>
+                <p>Choose the plan that fits your hiring needs</p>
+            </div>
+            
+            <div class="pricing-plans">
+                <div class="pricing-card">
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-price">$99</div>
+                    <div class="plan-period">per month</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 5 active jobs</li>
+                        <li><i class="fas fa-check"></i> AI Candidate Matching</li>
+                        <li><i class="fas fa-check"></i> 500 candidate profiles</li>
+                        <li><i class="fas fa-check"></i> Basic analytics</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Get Started</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="plan-name">Professional</div>
+                    <div class="plan-price">$299</div>
+                    <div class="plan-period">per month</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Up to 20 active jobs</li>
+                        <li><i class="fas fa-check"></i> Advanced AI Matching</li>
+                        <li><i class="fas fa-check"></i> Unlimited candidates</li>
+                        <li><i class="fas fa-check"></i> Advanced analytics</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> Team collaboration</li>
+                    </ul>
+                    <a href="#" class="btn btn-employer">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="plan-name">Enterprise</div>
+                    <div class="plan-price">Custom</div>
+                    <div class="plan-period">tailored pricing</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Unlimited jobs</li>
+                        <li><i class="fas fa-check"></i> Custom AI Models</li>
+                        <li><i class="fas fa-check"></i> API access</li>
+                        <li><i class="fas fa-check"></i> Custom integrations</li>
+                        <li><i class="fas fa-check"></i> Dedicated account manager</li>
+                        <li><i class="fas fa-check"></i> SLA guarantee</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA -->
+    <section class="recruiter-cta">
+        <div class="container">
+            <h2>Ready to Transform Your Hiring?</h2>
+            <p>Join thousands of companies using SmartJob to find their perfect candidates faster and smarter.</p>
+            <a href="register.html?type=employer" class="btn btn-white btn-large">
+                <i class="fas fa-rocket"></i> Start 14-Day Free Trial
+            </a>
+            <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">No credit card required • Cancel anytime</p>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="logo-text" style="color: white;">Smart<span style="color: var(--light-blue);">Job</span></div>
+                    </div>
+                    <p>SmartJob uses advanced rule-based AI algorithms to match job seekers with their ideal opportunities and help employers find the perfect candidates.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>For Employers</h4>
+                    <ul>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Post Jobs</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Candidate Search</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Employer Dashboard</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Blog</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Case Studies</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Help Center</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">API Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">About Us</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Careers</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Contact</a></li>
+                        <li><a href="#" style="color: rgba(255,255,255,0.7);">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2026 SmartJob Portal. All rights reserved. | AI-Powered Recruitment Platform
+            </div>
+        </div>
+    </footer>
+
+
+    
+    <script>
+        // Pricing card hover effects
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('featured')) {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('featured')) {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.05)';
+                }
+            });
+        });
+        
+        // Free trial button tracking
+        document.querySelectorAll('.btn-employer').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.textContent.includes('Trial')) {
+                    // Track free trial click
+                    console.log('Free trial button clicked');
+                    // In real app, this would send analytics data
+                }
+            });
+        });
+        
+        // Smooth scroll for pricing link
+        document.querySelector('a[href="#pricing"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#pricing').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

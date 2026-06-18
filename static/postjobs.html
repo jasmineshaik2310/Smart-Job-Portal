@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - SmartJob Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        :root { 
+            --primary-blue: #2563eb; 
+            --secondary-blue: #3b82f6;
+            --dark-gray: #1f2937; 
+            --medium-gray: #4b5563;
+            --light-gray: #f3f4f6;
+            --success-green: #10b981;
+            --danger-red: #ef4444;
+        }
+        body { background: linear-gradient(135deg, #f0f9ff 0%, #e6f3ff 100%); min-height: 100vh; padding: 40px 20px; }
+        .post-job-container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { color: var(--dark-gray); font-size: 36px; margin-bottom: 10px; }
+        .header p { color: var(--medium-gray); }
+        .post-job-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: 600; color: var(--dark-gray); margin-bottom: 8px; }
+        label i { color: var(--primary-blue); margin-right: 8px; }
+        input, textarea, select { width: 100%; padding: 14px 18px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; transition: 0.3s; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        textarea { min-height: 150px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .skills-input { display: flex; gap: 10px; }
+        .skills-input input { flex: 1; }
+        .skills-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .skill-tag { background: linear-gradient(135deg, #f0f9ff, #e6f3ff); color: var(--primary-blue); padding: 8px 16px; border-radius: 20px; font-size: 14px; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+        .skill-tag .remove { cursor: pointer; color: var(--danger-red); font-weight: bold; font-size: 18px; transition: 0.2s; }
+        .skill-tag .remove:hover { transform: scale(1.2); }
+        .btn { padding: 14px 30px; border-radius: 12px; font-weight: 600; cursor: pointer; border: none; font-size: 16px; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: white; width: 100%; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.3); }
+        .btn-outline { background: transparent; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
+        .btn-outline:hover { background: rgba(37,99,235,0.05); transform: translateY(-2px); }
+        .ai-suggestion { background: linear-gradient(135deg, #f0f9ff, #e6f3ff); padding: 20px; border-radius: 16px; margin-top: 20px; border-left: 4px solid var(--primary-blue); }
+        .ai-suggestion h4 { color: var(--primary-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .ai-suggestion p { color: var(--medium-gray); line-height: 1.6; }
+        .alert { position: fixed; top: 20px; right: 20px; padding: 15px 20px; border-radius: 12px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-left: 4px solid; display: flex; align-items: center; gap: 12px; z-index: 1000; animation: slideIn 0.3s ease; }
+        .alert.success { border-left-color: var(--success-green); }
+        .alert.error { border-left-color: var(--danger-red); }
+        .alert.info { border-left-color: var(--primary-blue); }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--success-green), #34d399);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .modal-icon i { font-size: 40px; color: white; }
+        .modal h2 { color: var(--dark-gray); margin-bottom: 10px; }
+        .modal p { color: var(--medium-gray); margin-bottom: 20px; }
+        .modal-buttons { display: flex; gap: 15px; justify-content: center; }
+        
+        @media (max-width: 768px) { 
+            .form-row { grid-template-columns: 1fr; } 
+            .post-job-card { padding: 25px; }
+            .modal-content { margin: 20px; padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="post-job-container">
+        <div class="header">
+            <h1><i class="fas fa-briefcase"></i> Post a New Job</h1>
+            <p>Fill in the details and let our AI find the perfect candidates</p>
+        </div>
+        
+        <div class="post-job-card">
+            <form id="postJobForm">
+                <div class="form-group">
+                    <label for="jobTitle"><i class="fas fa-tag"></i> Job Title *</label>
+                    <input type="text" id="jobTitle" placeholder="e.g., Senior AI Engineer" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="companyName"><i class="fas fa-building"></i> Company Name *</label>
+                        <input type="text" id="companyName" placeholder="e.g., Google, Microsoft, Amazon" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobType"><i class="fas fa-clock"></i> Job Type</label>
+                        <select id="jobType">
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location"><i class="fas fa-map-marker-alt"></i> Location</label>
+                        <input type="text" id="location" placeholder="e.g., Remote, San Francisco, CA">
+                    </div>
+                    <div class="form-group">
+                        <label for="salary"><i class="fas fa-dollar-sign"></i> Salary Range</label>
+                        <input type="text" id="salary" placeholder="e.g., $120,000 - $160,000">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobDescription"><i class="fas fa-align-left"></i> Job Description *</label>
+                    <textarea id="jobDescription" placeholder="Describe the role, responsibilities, and requirements..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-code"></i> Required Skills</label>
+                    <div class="skills-input">
+                        <input type="text" id="skillInput" placeholder="Add a skill (e.g., Python, React, SQL)">
+                        <button type="button" class="btn btn-outline" id="addSkillBtn"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                    <div class="skills-container" id="skillsContainer">
+                        <!-- Skills will be added here -->
+                    </div>
+                </div>
+                
+                <div class="ai-suggestion" id="aiSuggestion">
+                    <h4><i class="fas fa-robot"></i> AI Job Match Insights</h4>
+                    <p id="aiSuggestionText">Add skills to see AI-powered candidate matching predictions.</p>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Post Job with AI Matching
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Job Posted Successfully!</h2>
+            <p id="modalMessage">Your job has been posted and AI matching engine is now finding candidates.</p>
+            <div class="modal-buttons">
+                <button class="btn btn-outline" onclick="closeModal()">Post Another Job</button>
+                <button class="btn btn-primary" onclick="viewJobs()">View All Jobs</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load existing jobs from localStorage
+        let jobsDatabase = [];
+        
+        function loadJobs() {
+            const stored = localStorage.getItem('allJobs');
+            if (stored) {
+                jobsDatabase = JSON.parse(stored);
+            } else {
+                // Initialize with sample jobs
+                jobsDatabase = [
+                    { 
+                        id: 1, 
+                        title: "Senior AI Engineer", 
+                        company: "Google AI", 
+                        location: "Mountain View, CA", 
+                        type: "Full-time", 
+                        skills_required: ["Python", "Machine Learning", "TensorFlow", "Deep Learning", "PyTorch"], 
+                        salary: "$150k-200k", 
+                        description: "Lead development of cutting-edge AI models for natural language processing and computer vision applications.",
+                        postedDate: new Date().toISOString(),
+                        applicants: 0
+                    },
+                    { 
+                        id: 2, 
+                        title: "Full Stack Developer", 
+                        company: "Microsoft", 
+                        location: "Remote", 
+                        type: "Remote", 
+                        skills_required: ["JavaScript", "React", "Node.js", "Python", "SQL"], 
+                        salary: "$120k-160k", 
+                        description: "Build scalable web applications using React, Node.js, and Azure.",
+                        postedDate: new Date().toISOString(),
+                        applicants: 0
+                    },
+                    { 
+                        id: 3, 
+                        title: "Data Scientist", 
+                        company: "Amazon", 
+                        location: "Seattle, WA", 
+                        type: "Full-time", 
+                        skills_required: ["Python", "SQL", "Machine Learning", "Pandas", "Statistics"], 
+                        salary: "$130k-170k", 
+                        description: "Analyze large datasets and build machine learning models to optimize business operations.",
+                        postedDate: new Date().toISOString(),
+                        applicants: 0
+                    }
+                ];
+                saveJobs();
+            }
+        }
+        
+        function saveJobs() {
+            localStorage.setItem('allJobs', JSON.stringify(jobsDatabase));
+        }
+        
+        // Add new job
+        function addNewJob(jobData) {
+            const newId = jobsDatabase.length > 0 ? Math.max(...jobsDatabase.map(j => j.id)) + 1 : 4;
+            const newJob = {
+                id: newId,
+                ...jobData,
+                postedDate: new Date().toISOString(),
+                applicants: 0
+            };
+            jobsDatabase.unshift(newJob); // Add to beginning
+            saveJobs();
+            return newJob;
+        }
+        
+        // Get skills from container
+        function getSkills() {
+            const skillTags = document.querySelectorAll('#skillsContainer .skill-tag');
+            const skills = [];
+            skillTags.forEach(tag => {
+                const skillText = tag.childNodes[0].textContent.trim();
+                if (skillText) skills.push(skillText);
+            });
+            return skills;
+        }
+        
+        // Add skill functionality
+        const addSkillBtn = document.getElementById('addSkillBtn');
+        const skillInput = document.getElementById('skillInput');
+        const skillsContainer = document.getElementById('skillsContainer');
+        
+        function addSkill() {
+            const skill = skillInput.value.trim();
+            if (skill && !isSkillExists(skill)) {
+                const skillTag = document.createElement('div');
+                skillTag.className = 'skill-tag';
+                skillTag.innerHTML = `${skill} <span class="remove" onclick="removeSkill(this)">×</span>`;
+                skillsContainer.appendChild(skillTag);
+                skillInput.value = '';
+                updateAISuggestion();
+                showAlert(`"${skill}" added successfully!`, 'success');
+            } else if (isSkillExists(skill)) {
+                showAlert(`"${skill}" already added!`, 'error');
+            } else if (!skill) {
+                showAlert('Please enter a skill', 'error');
+            }
+        }
+        
+        function isSkillExists(skill) {
+            const existingSkills = getSkills();
+            return existingSkills.some(s => s.toLowerCase() === skill.toLowerCase());
+        }
+        
+        addSkillBtn.addEventListener('click', addSkill);
+        skillInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill();
+            }
+        });
+        
+        window.removeSkill = function(element) {
+            const skillText = element.parentElement.childNodes[0].textContent.trim();
+            element.parentElement.remove();
+            updateAISuggestion();
+            showAlert(`Removed "${skillText}"`, 'info');
+        };
+        
+        // Update AI suggestions based on skills
+        function updateAISuggestion() {
+            const skills = getSkills();
+            const suggestionText = document.getElementById('aiSuggestionText');
+            
+            if (skills.length === 0) {
+                suggestionText.innerHTML = "💡 Add skills to help our AI find the best candidates for this role. Skills like Python, React, and SQL attract more applicants.";
+                return;
+            }
+            
+            // Calculate estimated candidate matches
+            const estimatedCandidates = Math.floor(Math.random() * 80) + 20;
+            const topSkill = skills[0];
+            
+            suggestionText.innerHTML = `
+                <strong>📊 AI Analysis:</strong> Based on the required skills (${skills.slice(0, 5).join(', ')}${skills.length > 5 ? '...' : ''}), 
+                our AI estimates <strong style="color: var(--success-green);">${estimatedCandidates}+ potential candidates</strong> in our database.<br>
+                <strong>💡 Pro Tip:</strong> Adding "${getSuggestedSkill(skills)}" could increase candidate matches by 35-50%.
+            `;
+        }
+        
+        function getSuggestedSkill(skills) {
+            const allSkills = ["AWS", "Docker", "Kubernetes", "TypeScript", "GraphQL", "MongoDB", "CI/CD", "Agile", "REST APIs", "Cloud Computing"];
+            for (let skill of allSkills) {
+                if (!skills.some(s => s.toLowerCase() === skill.toLowerCase())) {
+                    return skill;
+                }
+            }
+            return "Cloud Technologies";
+        }
+        
+        // Show alert message
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
+            alertDiv.innerHTML = `<i class="fas ${icon}" style="font-size: 20px;"></i><span>${message}</span>`;
+            document.body.appendChild(alertDiv);
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                setTimeout(() => alertDiv.remove(), 300);
+            }, 3000);
+        }
+        
+        // Modal functions
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+            document.getElementById('postJobForm').reset();
+            // Clear skills container except keep some default
+            skillsContainer.innerHTML = '';
+            document.getElementById('jobTitle').focus();
+        }
+        
+        function viewJobs() {
+            window.location.href = 'jobs.html';
+        }
+        
+        // Form submission
+        document.getElementById('postJobForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const jobTitle = document.getElementById('jobTitle').value.trim();
+            const companyName = document.getElementById('companyName').value.trim();
+            const jobType = document.getElementById('jobType').value;
+            const location = document.getElementById('location').value.trim();
+            const salary = document.getElementById('salary').value.trim();
+            const description = document.getElementById('jobDescription').value.trim();
+            const skills = getSkills();
+            
+            // Validation
+            if (!jobTitle) {
+                showAlert('Please enter job title', 'error');
+                return;
+            }
+            if (!companyName) {
+                showAlert('Please enter company name', 'error');
+                return;
+            }
+            if (!description) {
+                showAlert('Please enter job description', 'error');
+                return;
+            }
+            if (skills.length === 0) {
+                showAlert('Please add at least one required skill', 'error');
+                return;
+            }
+            
+            // Create job object
+            const newJob = {
+                title: jobTitle,
+                company: companyName,
+                location: location || "Remote",
+                type: jobType,
+                skills_required: skills,
+                salary: salary || "Competitive",
+                description: description,
+                postedDate: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            addNewJob(newJob);
+            
+            // Update modal message
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.innerHTML = `"${jobTitle}" at ${companyName} has been posted successfully!<br><br>AI matching engine is now analyzing ${skills.length} skills to find the best candidates.`;
+            
+            // Show success modal
+            document.getElementById('successModal').classList.add('active');
+            
+            // Log for debugging
+            console.log('Job posted:', newJob);
+            console.log('Total jobs in database:', jobsDatabase.length);
+        });
+        
+        // Auto-focus and load data
+        document.getElementById('jobTitle').focus();
+        
+        // Add sample skills on load
+        function addSampleSkills() {
+            const sampleSkills = ["Python", "Machine Learning", "React"];
+            sampleSkills.forEach(skill => {
+                const skillTag = document.createElement('div');
+                skillTag.className = 'skill-tag';
+                skillTag.innerHTML = `${skill} <span class="remove" onclick="removeSkill(this)">×</span>`;
+                skillsContainer.appendChild(skillTag);
+            });
+            updateAISuggestion();
+        }
+        
+        // Initialize
+        loadJobs();
+        addSampleSkills();
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>

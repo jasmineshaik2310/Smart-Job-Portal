@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartJob Portal - AI Resume Matching</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --dark-blue: #1e40af;
+            --accent-teal: #0d9488;
+            --dark-gray: #1f2937;
+            --medium-gray: #4b5563;
+            --light-gray: #f3f4f6;
+            --success-green: #10b981;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+        }
+        
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            color: var(--dark-gray);
+        }
+        
+        .logo-text span {
+            color: var(--primary-blue);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--medium-gray);
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+        
+        .nav-links a.active {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-blue);
+            border-radius: 2px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="%23dbeafe" opacity="0.5"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+        
+        .hero-text h1 span {
+            color: var(--primary-blue);
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-text p {
+            font-size: 18px;
+            color: var(--medium-gray);
+            margin-bottom: 32px;
+            max-width: 500px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-large {
+            padding: 16px 36px;
+            font-size: 17px;
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .dashboard-preview {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            padding: 25px;
+            transform: perspective(1000px) rotateY(-5deg);
+            border: 1px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .dashboard-title {
+            font-weight: 700;
+            color: var(--dark-gray);
+            font-size: 18px;
+        }
+        
+        .ai-badge {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--primary-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .match-visualization {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        
+        .resume-card, .job-card {
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            width: 160px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .resume-card h4, .job-card h4 {
+            margin-bottom: 10px;
+            color: var(--dark-gray);
+        }
+        
+        .match-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .match-percentage {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--success-green);
+            background-color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+            margin-bottom: 15px;
+            z-index: 2;
+        }
+        
+        .connector-line {
+            width: 2px;
+            height: 30px;
+            background-color: var(--primary-blue);
+            position: absolute;
+            top: -35px;
+        }
+        
+        .connector-line.bottom {
+            top: auto;
+            bottom: -35px;
+        }
+        
+        /* Features Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+        }
+        
+        .section-title p {
+            font-size: 18px;
+            color: var(--medium-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 35px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: #e0e7ff;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 32px;
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .feature-card p {
+            color: var(--medium-gray);
+            margin-bottom: 20px;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            padding: 100px 0;
+            background-color: var(--light-gray);
+        }
+        
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background-color: #d1d5db;
+            z-index: 1;
+        }
+        
+        .step {
+            background-color: white;
+            border-radius: 16px;
+            padding: 35px 25px;
+            width: 30%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 22px;
+            margin: 0 auto 25px;
+        }
+        
+        .step h3 {
+            font-size: 22px;
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        
+        .testimonial-card {
+            background-color: #f8fafc;
+            border-radius: 16px;
+            padding: 35px;
+            border-left: 5px solid var(--primary-blue);
+        }
+        
+        .testimonial-content {
+            font-size: 17px;
+            color: var(--medium-gray);
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #dbeafe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 22px;
+        }
+        
+        .author-info h4 {
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+        }
+        
+        .cta-section h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: var(--primary-blue);
+        }
+        
+        .btn-white:hover {
+            background-color: #f0f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 26px;
+        }
+        
+        .footer-logo-text span {
+            color: var(--light-blue);
+        }
+        
+        .footer-about p {
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+        
+        .footer-links h4 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            color: white;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            font-size: 15px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text p {
+                margin: 0 auto 32px;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .steps-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+            
+            .steps-container::before {
+                display: none;
+            }
+            
+            .step {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 42px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-text h1 {
+                font-size: 36px;
+            }
+            
+            .section-title h2 {
+                font-size: 32px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-large {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="logo-text">Smart<span>Job</span></div>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                
+                     <a href="jobseekerdashboard.html">For Job Seekers</a>
+    <a href="recruiters.html">For Recruiters</a>
+                    
+                    
+                </div>
+                
+               <div class="nav-buttons">
+    <a href="login.html" class="btn btn-outline">
+        <i class="fas fa-sign-in-alt"></i> Login
+    </a>
+    <a href="register.html" class="btn btn-primary">
+        <i class="fas fa-user-plus"></i> Register
+    </a>
+</div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Rule-Based AI <span>Resume Matching</span> Platform</h1>
+                    <p>Find your perfect job or the ideal candidate with our advanced AI-powered matching engine that analyzes skills, experience, and qualifications with precision.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-large">
+                            <i class="fas fa-rocket"></i> Find Jobs
+                        </button>
+                        <button class="btn btn-outline btn-large">
+                            <i class="fas fa-search"></i> Match Resume
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="dashboard-preview">
+                        <div class="dashboard-header">
+                            <div class="dashboard-title">AI Matching Engine</div>
+                            <div class="ai-badge">Rule-Based AI</div>
+                        </div>
+                        <div class="match-visualization">
+                            <div class="resume-card">
+                                <h4>Your Resume</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">AI/ML</span>
+                                    <span class="skill-tag">Data Science</span>
+                                </div>
+                            </div>
+                            
+                            <div class="match-connector">
+                                <div class="connector-line"></div>
+                                <div class="match-percentage">94%</div>
+                                <div class="connector-line bottom"></div>
+                            </div>
+                            
+                            <div class="job-card">
+                                <h4>AI Engineer</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">AI/ML</span>
+                                    <span class="skill-tag">TensorFlow</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose SmartJob AI?</h2>
+                <p>Our rule-based AI matching system goes beyond keyword matching to understand context, experience levels, and skill relevance.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Intelligent Matching</h3>
+                    <p>Our AI analyzes resumes and job descriptions using rule-based algorithms to find the most relevant matches based on skills, experience, and qualifications.</p>
+                    <a href="#" class="btn btn-outline">Learn More</a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Resume Analysis</h3>
+                    <p>Get detailed insights into your resume's strengths and weaknesses with our AI-powered analysis that suggests improvements for better matching.</p>
+                    <a href="#" class="btn btn-outline">Learn More</a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Fast & Accurate</h3>
+                    <p>Our system processes thousands of resumes in seconds with 95% accuracy, saving time for both job seekers and employers.</p>
+                    <a href="#" class="btn btn-outline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How Our AI Matching Works</h2>
+                <p>Our three-step process ensures the most accurate matching between candidates and job opportunities.</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Upload & Analyze</h3>
+                    <p>Upload your resume or job description. Our AI parses and analyzes the content to extract skills, experience, and qualifications.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Rule-Based Matching</h3>
+                    <p>Our proprietary rule-based algorithm matches candidates to jobs based on weighted criteria including skills match, experience level, and location.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Results</h3>
+                    <p>Receive ranked matches with compatibility scores. For job seekers, get tailored job recommendations. For employers, get top candidate lists.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>See how SmartJob AI has transformed hiring and job searching for thousands of users.</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "SmartJob's AI matching found me a perfect role that I wouldn't have discovered on my own. The compatibility score was spot-on, and I landed my dream job in AI research."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AJ</div>
+                        <div class="author-info">
+                            <h4>Alex Johnson</h4>
+                            <p>AI Research Engineer, Google</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "As a hiring manager, SmartJob saved us countless hours. The rule-based matching filtered out unqualified candidates and highlighted the best fits with incredible accuracy."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SR</div>
+                        <div class="author-info">
+                            <h4>Sarah Rodriguez</h4>
+                            <p>HR Director, TechSolutions Inc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Transform Your Career?</h2>
+            <p>Join thousands of job seekers and employers who have found success with our AI-powered matching platform. Sign up today and experience the future of hiring.</p>
+            <button class="btn btn-white btn-large">
+                <i class="fas fa-rocket"></i> Get Started Free
+            </button>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="footer-logo-text">Smart<span>Job</span></div>
+                    </div>
+                    <p>SmartJob uses advanced rule-based AI algorithms to match job seekers with their ideal opportunities and help employers find the perfect candidates.</p>
+                    <div class="social-icons">
+                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" style="color: white;"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>For Job Seekers</h4>
+                    <ul>
+                        <li><a href="#">Find Jobs</a></li>
+                        <li><a href="#">Resume Analysis</a></li>
+                        <li><a href="#">Career Advice</a></li>
+                        <li><a href="#">Skill Assessment</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>For Employers</h4>
+                    <ul>
+                        <li><a href="#">Post Jobs</a></li>
+                        <li><a href="#">Candidate Search</a></li>
+                        <li><a href="#">Employer Dashboard</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2026 SmartJob Portal. All rights reserved. | Rule-Based AI Resume Matching System
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add interactivity to buttons
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            button.addEventListener('click', function() {
+            });
+        });
+        
+        document.querySelectorAll('.btn-outline').forEach(button => {
+            button.addEventListener('click', function() {
+                const buttonText = this.textContent.trim();
+                if(buttonText.includes('Login')) {
+                } else if(buttonText.includes('Learn More')) {
+                } else {
+                    alert('Action triggered: ' + buttonText);
+                }
+            });
+        });
+        
+        // Animate the match percentage on scroll
+        const observerOptions = {
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const matchElement = entry.target.querySelector('.match-percentage');
+                    if (matchElement) {
+                        matchElement.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            matchElement.style.transform = 'scale(1)';
+                        }, 300);
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Observe the hero image section
+        const heroImage = document.querySelector('.hero-image');
+        if (heroImage) {
+            observer.observe(heroImage);
+        }
+        
+        // Add hover effect to feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.feature-icon');
+                icon.style.transform = 'rotate(5deg) scale(1.1)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.feature-icon');
+                icon.style.transform = 'rotate(0) scale(1)';
+            });
+        });
+        
+        // Simple animation for step cards
+        document.querySelectorAll('.step').forEach((step, index) => {
+            // Add delay for each step
+            step.style.animationDelay = `${index * 0.2}s`;
+        });
+    </script>
+</body>
+</html>
